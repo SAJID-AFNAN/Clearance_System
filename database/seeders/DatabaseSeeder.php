@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             SubjectSeeder::class,
             TimeTableSeeder::class,
+            ExamSeeder::class,
         ]);
     }
 }

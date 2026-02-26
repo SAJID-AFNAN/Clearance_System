@@ -5,21 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Subject extends Model
+class Exam extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
+        'date',
+        'subject_id',
     ];
 
-    public function marks()
+    public function subject()
     {
-        return $this->hasMany(Exam::class);
-    }
-
-    public function timeTables()
-    {
-        return $this->hasMany(TimeTable::class,'student_id');
+        return $this->belongsTo(Subject::class);
     }
 }
