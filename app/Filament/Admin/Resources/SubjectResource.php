@@ -2,12 +2,10 @@
 
 namespace App\Filament\Admin\Resources;
 
-use App\Filament\Admin\Resources\UserResource\Pages;
-use App\Filament\Admin\Resources\UserResource\RelationManagers;
-use App\Models\Role;
-use App\Models\User;
+use App\Filament\Admin\Resources\SubjectResource\Pages;
+use App\Filament\Admin\Resources\SubjectResource\RelationManagers;
+use App\Models\Subject;
 use Filament\Forms;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -17,9 +15,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class UserResource extends Resource
+class SubjectResource extends Resource
 {
-    protected static ?string $model = User::class;
+    protected static ?string $model = Subject::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -27,17 +25,7 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')->required()->maxLength(255),
-                TextInput::make('email')->required()->maxLength(255),
-                Select::make('role_id')
-                    ->label('Role')
-                    ->relationship('role', 'name')
-                    ->required(),
-                TextInput::make('password')
-                    ->password()
-                    ->required(fn(string $context): bool => $context === 'create')
-                    ->dehydrated(fn($state): bool => filled($state))
-                    ->maxLength(255)
+                TextInput::make('name')->required()->maxLength(255)
             ]);
     }
 
@@ -47,9 +35,8 @@ class UserResource extends Resource
             ->columns([
                 TextColumn::make('serial_no')->label('No')->rowIndex(),
                 TextColumn::make('name')->searchable()->sortable(),
-                TextColumn::make('email')->searchable()->sortable(),
-                TextColumn::make('role.name')->searchable()->sortable(),
                 TextColumn::make('created_at')->searchable()->sortable(),
+                TextColumn::make('updated_at')->searchable()->sortable(),
             ])
             ->filters([
                 //
@@ -74,9 +61,9 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'index' => Pages\ListSubjects::route('/'),
+            'create' => Pages\CreateSubject::route('/create'),
+            'edit' => Pages\EditSubject::route('/{record}/edit'),
         ];
     }
 }
